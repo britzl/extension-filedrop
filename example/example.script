@@ -1,0 +1,8 @@
+function init(self)
+	if filedrop then
+		print("set listener")
+		filedrop.set_listener(function(self, event, filename, data)
+			print(event, filename, data)
+		end)
+	end
+end
