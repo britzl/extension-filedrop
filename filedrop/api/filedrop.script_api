@@ -1,0 +1,12 @@
+- name: filedrop
+  type: table
+  desc: Functions and constants for interacting with the FileDrop API
+
+  members:
+
+  - name: set_listener
+    type: function
+
+    parameters:
+      - name: listener
+        type: function

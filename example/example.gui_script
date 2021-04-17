@@ -1,0 +1,39 @@
+local function set_text(text)
+	gui.set_text(gui.get_node("text"), text)
+end
+
+function init(self)
+	if not filedrop then
+		set_text("filedrop only supported on HTML5")
+		return
+	end
+	set_text("Drop .txt or .png")
+	local texture_id = nil
+	local image_node = gui.get_node("image")
+	filedrop.set_listener(function(self, event, filename, data)
+		print(event)
+		if event == "dragover" then
+			msg.post("@render:", "clear_color", { color = vmath.vector4(0, 0.5, 0, 1.0) })
+		elseif event == "dragleave" then
+			msg.post("@render:", "clear_color", { color = vmath.vector4(0, 0, 0, 1.0) })
+		elseif event == "drop" then
+			set_text("Dropped " .. filename)
+			msg.post("@render:", "clear_color", { color = vmath.vector4(0, 0, 0, 1.0) })
+			local ext = filename:match(".*%.(.*)")
+			if ext == "txt" then
+				set_text(data:sub(1, 2048))
+			elseif ext == "png" then
+				local buf, w, h = png.decode_rgba(data, true)
+				local pixels = buffer.get_bytes(buf, "pixels")
+				if texture_id then
+					gui.delete_texture(texture_id)
+				end
+
+				texture_id = filename
+				gui.new_texture(texture_id, w, h, "rgba", pixels, true)
+				gui.set_texture(image_node, texture_id)
+				gui.set_size(image_node, vmath.vector3(w, h, 0))
+			end
+		end
+	end)
+end

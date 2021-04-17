@@ -22,11 +22,11 @@ var FileDropLibrary = {
 
         }, { passive: false });
 
-        document.activeElement.addEventListener("dragout", event => {
+        document.activeElement.addEventListener("dragleave", event => {
             if (event.stopPropagation) event.stopPropagation();
             if (event.preventDefault) event.preventDefault();
             {{{ makeDynCall("viiii", "Context.listener") }}} (
-                allocate(intArrayFromString("dragout"), ALLOC_STACK),
+                allocate(intArrayFromString("dragleave"), ALLOC_STACK),
                 0,
                 0,
                 0
@@ -50,13 +50,12 @@ var FileDropLibrary = {
 
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
-                console.log("Loading file " + file.name);
                 const reader = new FileReader();
                 reader.addEventListener("load", (event) => {
-                    console.log("Loaded file " + file.name, event.target.result);
                     const bufferLength = event.target.result.byteLength;
                     var buffer = _malloc(bufferLength);
-                    HEAPU8.set(event.target.result, buffer);
+                    const uint8Buffer = new Uint8Array(event.target.result);
+                    HEAPU8.set(uint8Buffer, buffer);
                     {{{ makeDynCall("viiii", "Context.listener") }}} (
                         allocate(intArrayFromString("drop"), ALLOC_STACK),
                         allocate(intArrayFromString(file.name), ALLOC_STACK),

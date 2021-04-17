@@ -1,5 +1,6 @@
 [project]
 title = FileDrop
+dependencies = https://github.com/britzl/defold-png/archive/refs/tags/1.2.1.zip
 
 [bootstrap]
 main_collection = /example/example.collectionc
@@ -8,8 +9,8 @@ main_collection = /example/example.collectionc
 game_binding = /input/game.input_bindingc
 
 [display]
-width = 640
-height = 1136
+width = 1136
+height = 640
 
 [script]
 shared_state = 1
