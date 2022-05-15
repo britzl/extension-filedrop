@@ -27,20 +27,30 @@ void FileDrop_Finilize() {
     if (dragView != 0)
     {
         [dragView removeFromSuperview];
-        [dragView dealloc];
+        [dragView release];
+        dragView = 0;
     }
 }
 
 @implementation FileDropDelegate
 
 -(NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
-    dmLogInfo("draggingEntered");
     draggingCallback((const char*)[@"dragover" UTF8String], 0,0,0);
     return NSDragOperationCopy;
 }
 
 -(BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
-    dmLogInfo("performDragOperation");
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
+        NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+        for (NSString *path in files) {
+            NSData *data = [NSData dataWithContentsOfFile:path];
+            draggingCallback((const char*)[@"drop" UTF8String],
+                             (const char*)[path UTF8String],
+                             (const uint8_t *)[data bytes],
+                             [data length]);
+        }
+    }
     return YES;
 }
 
