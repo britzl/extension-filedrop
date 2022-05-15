@@ -1,6 +1,6 @@
 [project]
 title = FileDrop
-dependencies = https://github.com/britzl/defold-png/archive/refs/tags/1.2.1.zip
+dependencies#0 = https://github.com/britzl/defold-png/archive/refs/tags/1.2.2.zip
 
 [bootstrap]
 main_collection = /example/example.collectionc

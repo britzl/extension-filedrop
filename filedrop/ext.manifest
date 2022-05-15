@@ -1,1 +1,7 @@
 name: "FileDrop"
+
+platforms:
+  osx:
+    context:
+        frameworks: ["AppKit"]
+        weakFrameworks: []
