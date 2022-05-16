@@ -4,7 +4,7 @@ end
 
 function init(self)
 	if not filedrop then
-		set_text("filedrop only supported on HTML5")
+		set_text("filedrop only supported on HTML5 & MacOS")
 		return
 	end
 	set_text("Drop .txt or .png")

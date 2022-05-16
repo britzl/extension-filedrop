@@ -5,7 +5,7 @@
 #define MODULE_NAME "filedrop"
 #define DLIB_LOG_DOMAIN LIB_NAME
 
-#if defined(DM_PLATFORM_HTML5)
+#if defined(DM_PLATFORM_HTML5) || defined(DM_PLATFORM_OSX)
 
 struct FileDrop
 {
@@ -103,7 +103,7 @@ dmExtension::Result AppInitializeFileDropExtension(dmExtension::AppParams* param
 
 dmExtension::Result InitializeFileDropExtension(dmExtension::Params* params)
 {
-	#if defined(DM_PLATFORM_HTML5)
+	#if defined(DM_PLATFORM_HTML5) || defined(DM_PLATFORM_OSX)
 	LuaInit(params->m_L);
 	#else
 	printf("Extension %s is not supported\n", MODULE_NAME);
@@ -113,18 +113,19 @@ dmExtension::Result InitializeFileDropExtension(dmExtension::Params* params)
 
 dmExtension::Result AppFinalizeFileDropExtension(dmExtension::AppParams* params)
 {
-	#if defined(DM_PLATFORM_HTML5)
-	if (g_FileDrop.m_Callback != 0)
-	{
-		dmScript::DestroyCallback(g_FileDrop.m_Callback);
-		g_FileDrop.m_Callback = 0;
-	}
-	#endif
 	return dmExtension::RESULT_OK;
 }
 
 dmExtension::Result FinalizeFileDropExtension(dmExtension::Params* params)
 {
+	#if defined(DM_PLATFORM_HTML5) || defined(DM_PLATFORM_OSX)
+	if (g_FileDrop.m_Callback != 0)
+	{
+		dmScript::DestroyCallback(g_FileDrop.m_Callback);
+		g_FileDrop.m_Callback = 0;
+	}
+	FileDrop_Finalize();
+	#endif
 	return dmExtension::RESULT_OK;
 }
 
