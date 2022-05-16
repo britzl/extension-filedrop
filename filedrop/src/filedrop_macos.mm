@@ -46,7 +46,7 @@ void FileDrop_Finalize() {
         for (NSString *path in files) {
             NSData *data = [NSData dataWithContentsOfFile:path];
             draggingCallback((const char*)[@"drop" UTF8String],
-                             (const char*)[path UTF8String],
+                             (const char*)[[path lastPathComponent] UTF8String],
                              (const uint8_t *)[data bytes],
                              [data length]);
         }
