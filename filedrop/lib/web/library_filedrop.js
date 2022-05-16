@@ -5,7 +5,7 @@ var FileDropLibrary = {
     $Context: {
         listener: null
     },
-    FileDrop_Finilize: function() {},
+    FileDrop_Finalize: function() {},
     FileDrop_PlatformSetEventListener: function(listener) {
         Context.listener = listener;
 

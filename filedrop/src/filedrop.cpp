@@ -124,7 +124,7 @@ dmExtension::Result FinalizeFileDropExtension(dmExtension::Params* params)
 		dmScript::DestroyCallback(g_FileDrop.m_Callback);
 		g_FileDrop.m_Callback = 0;
 	}
-	FileDrop_Finilize();
+	FileDrop_Finalize();
 	#endif
 	return dmExtension::RESULT_OK;
 }
