@@ -15,7 +15,7 @@ function init(self)
 		if event == "dragover" then
 			msg.post("@render:", "clear_color", { color = vmath.vector4(0, 0.5, 0, 1.0) })
 			if filename then
-				set_text("Dropped " .. filename)
+				set_text("dragover " .. filename)
 			end
 		elseif event == "dragleave" then
 			set_text("dragleave")
