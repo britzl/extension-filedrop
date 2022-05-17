@@ -35,7 +35,17 @@ void FileDrop_Finalize() {
 @implementation FileDropDelegate
 
 -(NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
-    draggingCallback((const char*)[@"dragover" UTF8String], 0,0,0);
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
+        NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+        for (NSString *path in files) {
+            NSData *data = [NSData dataWithContentsOfFile:path];
+            draggingCallback((const char*)[@"dragover" UTF8String],
+            (const char*)[[path lastPathComponent] UTF8String],
+            0,
+            0);
+        }
+    }
     return NSDragOperationCopy;
 }
 
