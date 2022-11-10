@@ -23,7 +23,10 @@ void FileDrop_PlatformSetEventListener(OnEventCallback callback) {
     }
 }
 
-void FileDrop_Finalize() {
+void FileDrop_PlatformAppInitialize() {}
+void FileDrop_PlatformAppFinalize() {}
+
+void FileDrop_PlatformFinalize() {
     if (dragView != 0)
     {
         [dragView removeFromSuperview];

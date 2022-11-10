@@ -8,7 +8,9 @@ typedef void (*OnEventCallback)(const char* event, const char* filename, const u
 
 extern "C" {
     void FileDrop_PlatformSetEventListener(OnEventCallback callback);
-    void FileDrop_Finalize();
+    void FileDrop_PlatformAppFinalize();
+    void FileDrop_PlatformAppInitialize();
+    void FileDrop_PlatformFinalize();
 }
 
 #endif

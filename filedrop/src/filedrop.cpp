@@ -98,6 +98,7 @@ static void LuaInit(lua_State* L)
 
 dmExtension::Result AppInitializeFileDropExtension(dmExtension::AppParams* params)
 {
+	FileDrop_PlatformAppInitialize();
 	return dmExtension::RESULT_OK;
 }
 
@@ -113,6 +114,7 @@ dmExtension::Result InitializeFileDropExtension(dmExtension::Params* params)
 
 dmExtension::Result AppFinalizeFileDropExtension(dmExtension::AppParams* params)
 {
+	FileDrop_PlatformAppFinalize();
 	return dmExtension::RESULT_OK;
 }
 
@@ -124,7 +126,7 @@ dmExtension::Result FinalizeFileDropExtension(dmExtension::Params* params)
 		dmScript::DestroyCallback(g_FileDrop.m_Callback);
 		g_FileDrop.m_Callback = 0;
 	}
-	FileDrop_Finalize();
+	FileDrop_PlatformFinalize();
 	#endif
 	return dmExtension::RESULT_OK;
 }

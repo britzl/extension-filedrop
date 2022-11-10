@@ -3,13 +3,12 @@
 var FileDropLibrary = {
 
     $Context: {
-        listener: null
+        listener: null,
+        element: null,
     },
-    FileDrop_Finalize: function() {},
-    FileDrop_PlatformSetEventListener: function(listener) {
-        Context.listener = listener;
-
-        document.activeElement.addEventListener("dragover", event => {
+    $Listeners: {
+        OnDragOver: function(event) {
+            if (!Context.listener) return;
             if (event.stopPropagation) event.stopPropagation();
             if (event.preventDefault) event.preventDefault();
             event.dataTransfer.dropEffect = 'copy';
@@ -19,10 +18,9 @@ var FileDropLibrary = {
                 0,
                 0
             );
-
-        }, { passive: false });
-
-        document.activeElement.addEventListener("dragleave", event => {
+        },
+        OnDragLeave: function(event) {
+            if (!Context.listener) return;
             if (event.stopPropagation) event.stopPropagation();
             if (event.preventDefault) event.preventDefault();
             {{{ makeDynCall("viiii", "Context.listener") }}} (
@@ -31,9 +29,9 @@ var FileDropLibrary = {
                 0,
                 0
             );
-        }, { passive: false });
-
-        document.activeElement.addEventListener("drop", event => {
+        },
+        OnDrop: function(event) {
+            if (!Context.listener) return;
             if (event.stopPropagation) event.stopPropagation();
             if (event.preventDefault) event.preventDefault();
             var files = [];
@@ -66,10 +64,26 @@ var FileDropLibrary = {
                 });
                 reader.readAsArrayBuffer(file);
             }
-        }, { passive: false });
+        },
+    },
+    FileDrop_PlatformAppInitialize: function() {
+        Context.element = document.activeElement;
+        document.activeElement.addEventListener("dragover", Listeners.OnDragOver, { passive: false });
+        document.activeElement.addEventListener("dragleave", Listeners.OnDragLeave, { passive: false });
+        document.activeElement.addEventListener("drop", Listeners.OnDrop, { passive: false });
+    },
+    FileDrop_PlatformAppFinalize: function() {
+        Context.element.removeEventListener("dragover", Listeners.OnDragOver);
+        Context.element.removeEventListener("dragleave", Listeners.OnDragLeave);
+        Context.element.removeEventListener("drop", Listeners.OnDrop);
+    },
+    FileDrop_PlatformFinalize: function() {},
+    FileDrop_PlatformSetEventListener: function(listener) {
+        Context.listener = listener;
     }
 };
 
 autoAddDeps(FileDropLibrary, "$Context");
+autoAddDeps(FileDropLibrary, "$Listeners");
 
 mergeInto(LibraryManager.library, FileDropLibrary);
