@@ -13,7 +13,7 @@ var FileDropLibrary = {
             if (event.preventDefault) event.preventDefault();
             event.dataTransfer.dropEffect = 'copy';
             {{{ makeDynCall("viiii", "Context.listener") }}} (
-                allocate(intArrayFromString("dragover"), ALLOC_STACK),
+                stringToUTF8OnStack("dragover"),
                 0,
                 0,
                 0
@@ -24,7 +24,7 @@ var FileDropLibrary = {
             if (event.stopPropagation) event.stopPropagation();
             if (event.preventDefault) event.preventDefault();
             {{{ makeDynCall("viiii", "Context.listener") }}} (
-                allocate(intArrayFromString("dragleave"), ALLOC_STACK),
+                stringToUTF8OnStack("dragleave"),
                 0,
                 0,
                 0
@@ -55,8 +55,8 @@ var FileDropLibrary = {
                     const uint8Buffer = new Uint8Array(event.target.result);
                     HEAPU8.set(uint8Buffer, buffer);
                     {{{ makeDynCall("viiii", "Context.listener") }}} (
-                        allocate(intArrayFromString("drop"), ALLOC_STACK),
-                        allocate(intArrayFromString(file.name), ALLOC_STACK),
+                        stringToUTF8OnStack("drop"),
+                        stringToUTF8OnStack(file.name),
                         buffer,
                         bufferLength
                     );
@@ -86,4 +86,4 @@ var FileDropLibrary = {
 autoAddDeps(FileDropLibrary, "$Context");
 autoAddDeps(FileDropLibrary, "$Listeners");
 
-mergeInto(LibraryManager.library, FileDropLibrary);
+addToLibrary(FileDropLibrary);
