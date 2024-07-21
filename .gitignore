@@ -8,3 +8,5 @@ Thumbs.db
 .project
 .cproject
 builtins
+manifest.private.der
+manifest.public.der
