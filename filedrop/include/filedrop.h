@@ -2,7 +2,7 @@
 
 #include <dmsdk/sdk.h>
 
-#if defined(DM_PLATFORM_HTML5) || defined(DM_PLATFORM_OSX)
+#if defined(DM_PLATFORM_HTML5) || defined(DM_PLATFORM_OSX) || defined(DM_PLATFORM_WINDOWS)
 
 typedef void (*OnEventCallback)(const char* event, const char* filename, const uint8_t* data, int data_length);
 
