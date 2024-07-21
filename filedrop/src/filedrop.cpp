@@ -5,7 +5,7 @@
 #define MODULE_NAME "filedrop"
 #define DLIB_LOG_DOMAIN LIB_NAME
 
-#if defined(DM_PLATFORM_HTML5) || defined(DM_PLATFORM_OSX)
+#if defined(DM_PLATFORM_HTML5) || defined(DM_PLATFORM_OSX) || defined(DM_PLATFORM_WINDOWS)
 
 struct FileDrop
 {
